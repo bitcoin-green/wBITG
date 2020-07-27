@@ -211,7 +211,8 @@ library Address {
     }
 }
 
-// library 3 
+// Library 3 
+
 library SafeMath {
    
     function add(uint256 a, uint256 b) internal pure returns (uint256) {
@@ -268,7 +269,8 @@ library SafeMath {
     }
 }
 
-// contract 1 - Access Control
+// Contract 1 - Access Control
+
 abstract contract AccessControl is Context {
     using EnumerableSet for EnumerableSet.AddressSet;
     using Address for address;
@@ -344,7 +346,7 @@ abstract contract AccessControl is Context {
     }
 }
 
-// contract 3 - Interface
+// Contract 2 - Interface
 
 interface IERC20 {
 
@@ -364,7 +366,7 @@ interface IERC20 {
     event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
-// Contract 4 - ERC20
+// Contract 3 - ERC20
 
 contract ERC20 is Context, IERC20, AccessControl {
     using SafeMath for uint256;
@@ -477,7 +479,7 @@ contract ERC20 is Context, IERC20, AccessControl {
     function _beforeTokenTransfer(address from, address to, uint256 amount) internal virtual { }
 }
 
-// Contract 5 Pausable 
+// Contract 4 Pausable 
 
 contract Pausable is Context {
 
@@ -513,7 +515,7 @@ contract Pausable is Context {
     }
 }
 
-// Contract 6  ERC20BURNABLE
+// Contract 5  ERC20BURNABLE
 abstract contract ERC20Burnable is Context, ERC20 {
 
     function burn(uint256 amount) public virtual {
@@ -528,7 +530,7 @@ abstract contract ERC20Burnable is Context, ERC20 {
     }
 }
 
-// Contract 7 ERC20PAUSABLE
+// Contract 6 ERC20PAUSABLE
 
 abstract contract ERC20Pausable is ERC20, Pausable {
 
@@ -539,19 +541,15 @@ abstract contract ERC20Pausable is ERC20, Pausable {
     }
 }
 
-// Contract 8 ERC20 PRESETMINTERPAUSER
+// Contract 7 wBITG - ERC20 PRESETMINTERPAUSER
 
 contract wBITG is Context,  AccessControl, ERC20Burnable, ERC20Pausable {
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
-    string public collateral_address;
-    string public validity_date;
-
 
     constructor(string memory name, string memory symbol) public ERC20(name, symbol) {
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
-        collateral_address = "https://explorer.bitg.org/address/GWhA3Ksf3JEHh3UvXKhbMALo1pW4328xVR";
-        validity_date = "Contract Valid from July 2020 and on.";
+
         _setupRole(MINTER_ROLE, _msgSender());
         _setupRole(PAUSER_ROLE, _msgSender());
     }
