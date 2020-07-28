@@ -2,7 +2,7 @@
 
 pragma solidity ^0.6.12;
 
-// Library 1 - enumerables set
+// Library 1 - Enumerables Set
 
 library EnumerableSet {
     // To implement this library for multiple types with as little code
@@ -135,19 +135,7 @@ library EnumerableSet {
     }
 }
 
-// contract 2 - Context
-abstract contract Context {
-    function _msgSender() internal view virtual returns (address payable) {
-        return msg.sender;
-    }
-
-    function _msgData() internal view virtual returns (bytes memory) {
-        this; // silence state mutability warning without generating bytecode - see https://github.com/ethereum/solidity/issues/2691
-        return msg.data;
-    }
-}
-
-// Library 2 
+// Library 2 - Address
 
 library Address {
 
@@ -211,7 +199,7 @@ library Address {
     }
 }
 
-// Library 3 
+// Library 3 - SafeMath
 
 library SafeMath {
    
@@ -269,7 +257,20 @@ library SafeMath {
     }
 }
 
-// Contract 1 - Access Control
+// Contract 1 - Context
+
+abstract contract Context {
+    function _msgSender() internal view virtual returns (address payable) {
+        return msg.sender;
+    }
+
+    function _msgData() internal view virtual returns (bytes memory) {
+        this; // silence state mutability warning without generating bytecode - see https://github.com/ethereum/solidity/issues/2691
+        return msg.data;
+    }
+}
+
+// Contract 2 - Access Control
 
 abstract contract AccessControl is Context {
     using EnumerableSet for EnumerableSet.AddressSet;
@@ -346,7 +347,7 @@ abstract contract AccessControl is Context {
     }
 }
 
-// Contract 2 - Interface
+// Contract 3 - Interface
 
 interface IERC20 {
 
@@ -366,7 +367,7 @@ interface IERC20 {
     event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
-// Contract 3 - ERC20
+// Contract 4 - ERC20
 
 contract ERC20 is Context, IERC20, AccessControl {
     using SafeMath for uint256;
@@ -479,7 +480,7 @@ contract ERC20 is Context, IERC20, AccessControl {
     function _beforeTokenTransfer(address from, address to, uint256 amount) internal virtual { }
 }
 
-// Contract 4 Pausable 
+// Contract 5 - Pausable 
 
 contract Pausable is Context {
 
@@ -516,6 +517,7 @@ contract Pausable is Context {
 }
 
 // Contract 5  ERC20BURNABLE
+
 abstract contract ERC20Burnable is Context, ERC20 {
 
     function burn(uint256 amount) public virtual {
@@ -546,10 +548,13 @@ abstract contract ERC20Pausable is ERC20, Pausable {
 contract wBITG is Context,  AccessControl, ERC20Burnable, ERC20Pausable {
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
+    string public collateral_address;
+    string public validity_date;
 
     constructor(string memory name, string memory symbol) public ERC20(name, symbol) {
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
-
+        collateral_address = "https://explorer.bitg.org/address/GWhA3Ksf3JEHh3UvXKhbMALo1pW4328xVR";
+        validity_date = "Contract Valid from July 2020 and on.";
         _setupRole(MINTER_ROLE, _msgSender());
         _setupRole(PAUSER_ROLE, _msgSender());
     }
