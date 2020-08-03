@@ -5,29 +5,19 @@ pragma solidity ^0.6.12;
 // Library 1 - Enumerables Set
 
 library EnumerableSet {
-    // To implement this library for multiple types with as little code
-    // repetition as possible, we write it in terms of a generic Set type with
-    // bytes32 values.
-    // The Set implementation uses private functions, and user-facing
-    // implementations (such as AddressSet) are just wrappers around the
-    // underlying Set.
-    // This means that we can only create new EnumerableSets for types that fit
-    // in bytes32.
 
     struct Set {
         // Storage of set values
         bytes32[] _values;
 
-        // Position of the value in the `values` array, plus 1 because index 0
-        // means a value is not in the set.
+
         mapping (bytes32 => uint256) _indexes;
     }
 
     function _add(Set storage set, bytes32 value) private returns (bool) {
         if (!_contains(set, value)) {
             set._values.push(value);
-            // The value is stored at length-1, but we add 1 to all indexes
-            // and use 0 as a sentinel value
+
             set._indexes[value] = set._values.length;
             return true;
         } else {
@@ -40,27 +30,17 @@ library EnumerableSet {
         uint256 valueIndex = set._indexes[value];
 
         if (valueIndex != 0) { // Equivalent to contains(set, value)
-            // To delete an element from the _values array in O(1), we swap the element to delete with the last one in
-            // the array, and then remove the last element (sometimes called as 'swap and pop').
-            // This modifies the order of the array, as noted in {at}.
 
             uint256 toDeleteIndex = valueIndex - 1;
             uint256 lastIndex = set._values.length - 1;
-
-            // When the value to delete is the last one, the swap operation is unnecessary. However, since this occurs
-            // so rarely, we still do the swap anyway to avoid the gas cost of adding an 'if' statement.
-
             bytes32 lastvalue = set._values[lastIndex];
 
-            // Move the last value to the index where the value to delete is
             set._values[toDeleteIndex] = lastvalue;
-            // Update the index for the moved value
+ 
             set._indexes[lastvalue] = toDeleteIndex + 1; // All indexes are 1-based
 
-            // Delete the slot where the moved value was stored
             set._values.pop();
 
-            // Delete the index for the deleted slot
             delete set._indexes[value];
 
             return true;
@@ -76,7 +56,6 @@ library EnumerableSet {
     function _length(Set storage set) private view returns (uint256) {
         return set._values.length;
     }
-
 
     function _at(Set storage set, uint256 index) private view returns (bytes32) {
         require(set._values.length > index, "EnumerableSet: index out of bounds");
@@ -140,12 +119,9 @@ library EnumerableSet {
 library Address {
 
     function isContract(address account) internal view returns (bool) {
-        // This method relies in extcodesize, which returns 0 for contracts in
-        // construction, since the code is only stored at the end of the
-        // constructor execution.
 
         uint256 size;
-        // solhint-disable-next-line no-inline-assembly
+
         assembly { size := extcodesize(account) }
         return size > 0;
     }
@@ -185,9 +161,7 @@ library Address {
         } else {
             // Look for revert reason and bubble it up if present
             if (returndata.length > 0) {
-                // The easiest way to bubble the revert reason is using memory via assembly
 
-                // solhint-disable-next-line no-inline-assembly
                 assembly {
                     let returndata_size := mload(returndata)
                     revert(add(32, returndata), returndata_size)
@@ -548,13 +522,9 @@ abstract contract ERC20Pausable is ERC20, Pausable {
 contract wBITG is Context,  AccessControl, ERC20Burnable, ERC20Pausable {
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
-    string public collateral_address;
-    string public validity_date;
 
     constructor(string memory name, string memory symbol) public ERC20(name, symbol) {
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
-        collateral_address = "https://explorer.bitg.org/address/GWhA3Ksf3JEHh3UvXKhbMALo1pW4328xVR";
-        validity_date = "Contract Valid from July 2020 and on.";
         _setupRole(MINTER_ROLE, _msgSender());
         _setupRole(PAUSER_ROLE, _msgSender());
     }
