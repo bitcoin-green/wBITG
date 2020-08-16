@@ -4,7 +4,8 @@ pragma solidity ^0.6.12;
 
 // wBITG is a BITG collateralized ERC20 Version of BitGreen Foundation's BITG. 
 // Balance in this contract, must match collateral address. You may verify balance Here: "https://explorer.bitg.org/address/GWhA3Ksf3JEHh3UvXKhbMALo1pW4328xVR"
-// visit BITG.org for more information.
+// please, visit BITG.org for more information, and confirmation of wBITG Contract Address.
+// Only interact with official 
 
 // Library 1 - Enumerables Set
 
