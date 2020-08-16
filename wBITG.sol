@@ -9,29 +9,16 @@ pragma solidity ^0.6.12;
 // Library 1 - Enumerables Set
 
 library EnumerableSet {
-    // To implement this library for multiple types with as little code
-    // repetition as possible, we write it in terms of a generic Set type with
-    // bytes32 values.
-    // The Set implementation uses private functions, and user-facing
-    // implementations (such as AddressSet) are just wrappers around the
-    // underlying Set.
-    // This means that we can only create new EnumerableSets for types that fit
-    // in bytes32.
 
     struct Set {
-        // Storage of set values
         bytes32[] _values;
 
-        // Position of the value in the `values` array, plus 1 because index 0
-        // means a value is not in the set.
         mapping (bytes32 => uint256) _indexes;
     }
 
     function _add(Set storage set, bytes32 value) private returns (bool) {
         if (!_contains(set, value)) {
             set._values.push(value);
-            // The value is stored at length-1, but we add 1 to all indexes
-            // and use 0 as a sentinel value
             set._indexes[value] = set._values.length;
             return true;
         } else {
@@ -40,31 +27,20 @@ library EnumerableSet {
     }
 
     function _remove(Set storage set, bytes32 value) private returns (bool) {
-        // We read and store the value's index to prevent multiple reads from the same storage slot
         uint256 valueIndex = set._indexes[value];
 
         if (valueIndex != 0) { // Equivalent to contains(set, value)
-            // To delete an element from the _values array in O(1), we swap the element to delete with the last one in
-            // the array, and then remove the last element (sometimes called as 'swap and pop').
-            // This modifies the order of the array, as noted in {at}.
 
             uint256 toDeleteIndex = valueIndex - 1;
             uint256 lastIndex = set._values.length - 1;
 
-            // When the value to delete is the last one, the swap operation is unnecessary. However, since this occurs
-            // so rarely, we still do the swap anyway to avoid the gas cost of adding an 'if' statement.
-
             bytes32 lastvalue = set._values[lastIndex];
 
-            // Move the last value to the index where the value to delete is
             set._values[toDeleteIndex] = lastvalue;
-            // Update the index for the moved value
             set._indexes[lastvalue] = toDeleteIndex + 1; // All indexes are 1-based
 
-            // Delete the slot where the moved value was stored
             set._values.pop();
 
-            // Delete the index for the deleted slot
             delete set._indexes[value];
 
             return true;
@@ -80,7 +56,6 @@ library EnumerableSet {
     function _length(Set storage set) private view returns (uint256) {
         return set._values.length;
     }
-
 
     function _at(Set storage set, uint256 index) private view returns (bytes32) {
         require(set._values.length > index, "EnumerableSet: index out of bounds");
@@ -210,7 +185,6 @@ library SafeMath {
     function add(uint256 a, uint256 b) internal pure returns (uint256) {
         uint256 c = a + b;
         require(c >= a, "SafeMath: addition overflow");
-
         return c;
     }
 
@@ -221,14 +195,11 @@ library SafeMath {
     function sub(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
         require(b <= a, errorMessage);
         uint256 c = a - b;
-
         return c;
     }
 
     function mul(uint256 a, uint256 b) internal pure returns (uint256) {
-        // Gas optimization: this is cheaper than requiring 'a' not being zero, but the
-        // benefit is lost if 'b' is also tested.
-        // See: https://github.com/OpenZeppelin/openzeppelin-contracts/pull/522
+
         if (a == 0) {
             return 0;
         }
@@ -246,7 +217,6 @@ library SafeMath {
     function div(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
         require(b > 0, errorMessage);
         uint256 c = a / b;
-        // assert(a == b * c + a % b); // There is no case in which this doesn't hold
 
         return c;
     }
@@ -356,15 +326,10 @@ abstract contract AccessControl is Context {
 interface IERC20 {
 
     function totalSupply() external view returns (uint256);
-
     function balanceOf(address account) external view returns (uint256);
-
     function transfer(address recipient, uint256 amount) external returns (bool);
-
     function allowance(address owner, address spender) external view returns (uint256);
-
     function approve(address spender, uint256 amount) external returns (bool);
-
     function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
 
     event Transfer(address indexed from, address indexed to, uint256 value);
@@ -520,7 +485,7 @@ contract Pausable is Context {
     }
 }
 
-// Contract 5  ERC20BURNABLE
+// Contract 6 - ERC20BURNABLE
 
 abstract contract ERC20Burnable is Context, ERC20 {
 
@@ -536,7 +501,7 @@ abstract contract ERC20Burnable is Context, ERC20 {
     }
 }
 
-// Contract 6 ERC20PAUSABLE
+// Contract 7 - ERC20PAUSABLE
 
 abstract contract ERC20Pausable is ERC20, Pausable {
 
@@ -547,7 +512,7 @@ abstract contract ERC20Pausable is ERC20, Pausable {
     }
 }
 
-// Contract 7 wBITG - ERC20 PRESETMINTERPAUSER
+// Contract 8 - wBITG - ERC20 PRESETMINTERPAUSER
 
 contract wBITG is Context,  AccessControl, ERC20Burnable, ERC20Pausable {
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
