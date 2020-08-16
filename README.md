@@ -21,8 +21,11 @@ If you wish to convert your BITG tokens, into wBITG erc-20 tokens to use as you 
 1. Send an email to "tokens@bitg.org". 
 in the email, You will need to share the following information.
 	Subject: wBITG MINT REQUEST
+	
 	Ammount of tokens to MINT:_
+	
 	BitGreen Address of tokens to MINT:_
+	
 	ETH Address where you would like to receive your minted tokens(Ensure you own this address. Tokens cannot be recovered if issued to wrong address.):_
 
 2. Once verified, and approved, Await official email confirmation from the BitGreen Foundation. This will tell you where to send BitGreen Collateral.
@@ -41,9 +44,13 @@ If you wish to convert your erc-20 wBITG tokens into BitGreen Protocol BITGs, th
 1. Send an email to "tokens@bitg.org." 
 in the email, You will need to share the following information.
 	Subject: wBITG BURN REQUEST
+	
 	Ammount of tokens to MINT:BURN
+	
 	BitGreen Address of tokens to REDEEM INTO(Ensure you own this address. Tokens cannot be recovered if issued to wrong address.):_
+	
 	ETH Address of tokens that will be BURNT:_
+	
 
 2. Once verified, and approved, Await official email confirmation from the BitGreen Foundation. This will tell you where to send wBITG coins to be burnt.
 
