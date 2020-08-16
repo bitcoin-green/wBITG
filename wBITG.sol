@@ -14,7 +14,6 @@ library EnumerableSet {
 
     struct Set {
         bytes32[] _values;
-
         mapping (bytes32 => uint256) _indexes;
     }
 
@@ -32,19 +31,13 @@ library EnumerableSet {
         uint256 valueIndex = set._indexes[value];
 
         if (valueIndex != 0) { // Equivalent to contains(set, value)
-
             uint256 toDeleteIndex = valueIndex - 1;
             uint256 lastIndex = set._values.length - 1;
-
             bytes32 lastvalue = set._values[lastIndex];
-
             set._values[toDeleteIndex] = lastvalue;
             set._indexes[lastvalue] = toDeleteIndex + 1; // All indexes are 1-based
-
             set._values.pop();
-
             delete set._indexes[value];
-
             return true;
         } else {
             return false;
@@ -121,7 +114,6 @@ library EnumerableSet {
 library Address {
 
     function isContract(address account) internal view returns (bool) {
-
         uint256 size;
         assembly { size := extcodesize(account) }
         return size > 0;
@@ -129,7 +121,6 @@ library Address {
 
     function sendValue(address payable recipient, uint256 amount) internal {
         require(address(this).balance >= amount, "Address: insufficient balance");
-
         (bool success, ) = recipient.call{ value: amount }("");
         require(success, "Address: unable to send value, recipient may have reverted");
     }
@@ -192,7 +183,6 @@ library SafeMath {
     }
 
     function mul(uint256 a, uint256 b) internal pure returns (uint256) {
-
         if (a == 0) {
             return 0;
         }
@@ -276,19 +266,16 @@ abstract contract AccessControl is Context {
 
     function grantRole(bytes32 role, address account) public virtual {
         require(hasRole(_roles[role].adminRole, _msgSender()), "AccessControl: sender must be an admin to grant");
-
         _grantRole(role, account);
     }
 
     function revokeRole(bytes32 role, address account) public virtual {
         require(hasRole(_roles[role].adminRole, _msgSender()), "AccessControl: sender must be an admin to revoke");
-
         _revokeRole(role, account);
     }
 
     function renounceRole(bytes32 role, address account) public virtual {
         require(account == _msgSender(), "AccessControl: can only renounce roles for self");
-
         _revokeRole(role, account);
     }
 
@@ -336,7 +323,6 @@ contract ERC20 is Context, IERC20, AccessControl {
     using Address for address;
 
     mapping (address => uint256) private _balances;
-
     mapping (address => mapping (address => uint256)) private _allowances;
 
     uint256 private _totalSupply;
@@ -488,7 +474,6 @@ abstract contract ERC20Burnable is Context, ERC20 {
 
     function burnFrom(address account, uint256 amount) public virtual {
         uint256 decreasedAllowance = allowance(account, _msgSender()).sub(amount, "ERC20: burn amount exceeds allowance");
-
         _approve(account, _msgSender(), decreasedAllowance);
         _burn(account, amount);
     }
